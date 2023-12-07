@@ -128,7 +128,9 @@ class RCTVoice {
           callback,
         );
       } else {
-        Voice.startSpeech(locale, callback);
+        const contextStrs =
+          (options as { contextPhrases?: string[] }).contextPhrases || [];
+        Voice.startSpeech(locale, contextStrs, callback);
       }
     });
   }
