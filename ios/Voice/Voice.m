@@ -269,7 +269,7 @@
   }
 }
 
-- (void)setupAndStartRecognizing:(NSString *)localeStr {
+- (void)setupAndStartRecognizing:(NSString *)localeStr contextualStrings:(NSArray<NSString *> *)contextualStrings {
   self.audioSession = [AVAudioSession sharedInstance];
   self.priorAudioCategory = [self.audioSession category];
   // Tear down resources before starting speech recognition..
@@ -301,6 +301,10 @@
   // Configure request so that results are returned before audio
   // recording is finished
   self.recognitionRequest.shouldReportPartialResults = YES;
+  // If contextualStrings is not empty, set contextualStrings
+  if (contextualStrings != nil && contextualStrings.count > 0) {
+    self.recognitionRequest.contextualStrings = contextualStrings;
+  }
 
   if (self.recognitionRequest == nil) {
     [self sendResult:@{@"code" : @"recognition_init"}:nil:nil:nil];
@@ -580,7 +584,8 @@ RCT_EXPORT_METHOD(isRecognizing : (RCTResponseSenderBlock)callback) {
 }
 
 RCT_EXPORT_METHOD(startSpeech
-                  : (NSString *)localeStr callback
+                  : (NSString *)localeStr contextStrs
+                  : (NSArray<NSString *> *) contextStrs callback
                   : (RCTResponseSenderBlock)callback) {
   if (self.recognitionTask != nil) {
     [self sendResult:RCTMakeError(@"Speech recognition already started!", nil,
@@ -605,7 +610,7 @@ RCT_EXPORT_METHOD(startSpeech
                            nil):nil:nil:nil];
       break;
     case SFSpeechRecognizerAuthorizationStatusAuthorized:
-      [self setupAndStartRecognizing:localeStr];
+      [self setupAndStartRecognizing:localeStr:contextStrs];
       break;
     }
   }];

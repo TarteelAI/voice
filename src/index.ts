@@ -71,7 +71,7 @@ class RCTVoice {
           reject(new Error(error));
         } else {
           if (this._listeners) {
-            this._listeners.map(listener => listener.remove());
+            this._listeners.map((listener) => listener.remove());
             this._listeners = null;
           }
           resolve();
@@ -89,7 +89,7 @@ class RCTVoice {
           reject(new Error(error));
         } else {
           if (this._listeners) {
-            this._listeners.map(listener => listener.remove());
+            this._listeners.map((listener) => listener.remove());
             this._listeners = null;
           }
           resolve();
@@ -164,7 +164,9 @@ class RCTVoice {
           callback,
         );
       } else {
-        Voice.startTranscription(url, locale, callback);
+        const contextStrs =
+          (options as { contextPhrases?: string[] }).contextPhrases || [];
+        Voice.startTranscription(url, locale, contextStrs, callback);
       }
     });
   }
@@ -173,7 +175,7 @@ class RCTVoice {
       return Promise.resolve();
     }
     return new Promise((resolve, reject) => {
-      Voice.stopSpeech(error => {
+      Voice.stopSpeech((error) => {
         if (error) {
           reject(new Error(error));
         } else {
@@ -187,7 +189,7 @@ class RCTVoice {
       return Promise.resolve();
     }
     return new Promise<void>((resolve, reject) => {
-      Voice.stopTranscription(error => {
+      Voice.stopTranscription((error) => {
         if (error) {
           reject(new Error(error));
         } else {
@@ -201,7 +203,7 @@ class RCTVoice {
       return Promise.resolve();
     }
     return new Promise((resolve, reject) => {
-      Voice.cancelSpeech(error => {
+      Voice.cancelSpeech((error) => {
         if (error) {
           reject(new Error(error));
         } else {
@@ -215,7 +217,7 @@ class RCTVoice {
       return Promise.resolve();
     }
     return new Promise<void>((resolve, reject) => {
-      Voice.cancelSpeech(error => {
+      Voice.cancelSpeech((error) => {
         if (error) {
           reject(new Error(error));
         } else {
@@ -252,7 +254,7 @@ class RCTVoice {
   }
 
   isRecognizing(): Promise<0 | 1> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       Voice.isRecognizing((isRecognizing: 0 | 1) => resolve(isRecognizing));
     });
   }
