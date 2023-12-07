@@ -51,5 +51,8 @@
   "dependencies": {
     "invariant": "^2.2.4",
     "@expo/config-plugins": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=16"
   }
 }
