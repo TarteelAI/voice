@@ -269,7 +269,7 @@
   }
 }
 
-- (void)setupAndStartRecognizing:(NSString *)localeStr contextualStrings:(NSArray<NSString *> *)contextualStrings {
+- (void)setupAndStartRecognizing:(NSString *)localeStr :(NSArray<NSString *> *)contextualStrings {
   self.audioSession = [AVAudioSession sharedInstance];
   self.priorAudioCategory = [self.audioSession category];
   // Tear down resources before starting speech recognition..
